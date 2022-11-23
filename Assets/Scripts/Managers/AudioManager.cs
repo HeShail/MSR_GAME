@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
         {
             audioManager = this;
         }
-        //Esto es prueba
+        //Esto es prueba II
     }
 
     private void Start()
