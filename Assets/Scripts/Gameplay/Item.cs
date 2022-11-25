@@ -36,9 +36,12 @@ public class Item : MonoBehaviour
             if (Input.GetKey(KeyCode.E))
             {
                 //GetComponentInChildren<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                if (GameManager.gm.GetComponent<ItemSystem>().ContainsItem(_id, itemType)) Debug.Log("YA SE ENCUENTRA GUARDADO");
-                else GameManager.gm.GetComponent<ItemSystem>().AddItem(_id, _name, itemType);
-                GameObject.FindWithTag("Message").GetComponent<TextMeshProUGUI>().text = "";
+                if (!GameManager.gm.GetComponent<ItemSystem>().ContainsItem(_id, itemType))
+                {
+                    if (textura != null) GameManager.gm.GetComponent<ItemSystem>().SetTexture(textura);
+                    GameManager.gm.GetComponent<ItemSystem>().AddItem(_id, _name, itemType);
+                    GameObject.FindWithTag("Message").GetComponent<TextMeshProUGUI>().text = "";
+                } 
 
                 if (itemType == 0) TrackPapers();
 
@@ -46,7 +49,7 @@ public class Item : MonoBehaviour
                 active = false;
             }
         }
-        
+
     }
 
     /// <summary> Metodo oculto que ejecuta la obtencion de las claves del anexo y repercusiones. </summary>
@@ -54,11 +57,11 @@ public class Item : MonoBehaviour
     {
         if (GameManager.gm.GetComponent<ItemSystem>().GetInventory().Count == 7) AudioManager.audioManager.TotalSuccess(); else AudioManager.audioManager.Success();
         if (GameManager.gm.GetComponent<ItemSystem>().GetInventory().Count == 4) GameObject.Find("GameManager").GetComponent<PlayerRespawn>().ChangeRespawn();
-        if (textura != null) GameManager.gm.GetComponent<ItemSystem>().SetTexture(textura);
         GameManager.gm.GetComponentInChildren<QuestManager>().UpdateQuest();
         timeTrial.CompleteTrial();
         SV.DeactivateQuest();
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -67,6 +70,4 @@ public class Item : MonoBehaviour
         other.GetComponent<StarterAssets.ThirdPersonController>().SendPickeable(false);
 
     }
-
-
 }
