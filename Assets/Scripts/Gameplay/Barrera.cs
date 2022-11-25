@@ -26,6 +26,7 @@ public class Barrera : MonoBehaviour
 
     public void Electrochute()
     {
+        //ESTO ES UN CAMBIOOOOOOOOOO  :D
         ElectricParticle.Play();
         AudioManager.audioManager.Electrocute();
         GameObject.Find("GameManager").GetComponent<PlayerRespawn>().blackout_anim.SetTrigger("fundido");
